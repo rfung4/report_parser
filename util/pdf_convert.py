@@ -1,3 +1,4 @@
+import camelot
 import tabula
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter

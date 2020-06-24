@@ -1,5 +1,7 @@
 import re
 
+import requests
+
 NUMBER_REGEX = re.compile('[0-9]+')
 MONEY_REGEX = re.compile('(\\$[0-9]+(\\.[0-9]+)?)+ ?([Bb]illion|[Mm]illion)?')
 
