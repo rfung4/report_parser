@@ -21,7 +21,7 @@ def run_script(script: Script, driver=DriverWrapper(), single=True):
     try:
         script.get_report()
         print("Acquiring Report")
-    except RecursionError as e:
+    except Exception as e:
         print(f"Exception occurred when acquiring report for {script.name} : {e}")
         return
 
@@ -29,7 +29,7 @@ def run_script(script: Script, driver=DriverWrapper(), single=True):
         try:
             func()
             print(f"Extracted {script.values[tag]} for {tag}")
-        except RecursionError as e: # EXC
+        except Exception as e:
             print(f"Exception occurred when parsing {tag} : {e}")
 
     output_path = script_path.rsplit("/", 1)[0] + f'/{script.name}.json'

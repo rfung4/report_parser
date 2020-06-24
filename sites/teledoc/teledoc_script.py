@@ -1,3 +1,4 @@
+import os
 import re
 import requests
 from runner import run_script
@@ -66,9 +67,8 @@ class Teledoc(Script):
                     value_index += 1
 
     def cleanup(self):
-        pass
-        # os.remove('tables.csv')
-        # os.remove('report.pdf')
+        os.remove('tables.csv')
+        os.remove('report.pdf')
 
 
 if __name__ == '__main__':
