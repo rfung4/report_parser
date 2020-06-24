@@ -1,11 +1,12 @@
 import inspect
 import json
-from definitions import Script
+
+from sites.script import Script
 from util.driver_manager import DriverWrapper
 
 
 def run_script(script: Script, driver=DriverWrapper(), single=True):
-    """ Runs a Script Instance, extracting/parsing values & exporting to a JSON file
+    """ Runs a Script Instance, extracting/parsing values & exporting to a JSON pdf_file
     :param single: Execution of a single script (boolean)
     :param script: Script Instance
     :param driver: WebDriver Wrapper, Instansiates
@@ -19,8 +20,8 @@ def run_script(script: Script, driver=DriverWrapper(), single=True):
 
     try:
         script.get_report()
-        print("Getting report ")
-    except Exception as e:
+        print("Acquiring Report")
+    except RecursionError as e:
         print(f"Exception occurred when acquiring report for {script.name} : {e}")
         return
 
@@ -28,10 +29,11 @@ def run_script(script: Script, driver=DriverWrapper(), single=True):
         try:
             func()
             print(f"Extracted {script.values[tag]} for {tag}")
-        except Exception as e:
+        except RecursionError as e: # EXC
             print(f"Exception occurred when parsing {tag} : {e}")
 
     output_path = script_path.rsplit("/", 1)[0] + f'/{script.name}.json'
+
     with open(output_path, 'w') as fp:
         json.dump(script.values, fp)
 
@@ -39,6 +41,8 @@ def run_script(script: Script, driver=DriverWrapper(), single=True):
 
     if single:
         driver.quit_driver()
+
+    script.cleanup()
 
 
 def run_all_scripts():
