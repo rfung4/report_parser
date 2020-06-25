@@ -18,7 +18,7 @@ class Microsoft(Script):
     def get_report(self):
         self.report = self.make_soup_requests(self.report_url)
 
-    def parse_net_income(self):  # Parses value & assigns to value dict
+    def parse_net_income(self):
         income_string = self.net_income_regex.search(self.report.text).group()
         self.values[self.NET_INCOME_TAG] = extract_monetary_value(income_string)
 

@@ -19,6 +19,10 @@ def get_csv_row_index(row_flag: str, csv_lines):
             return index
 
 
+def format_value_millions(val, negative=False):
+    return "".join(["-" if negative else '', "$", val, ' million'])
+
+
 if __name__ == '__main__':
     s = extract_monetary_value('cash equivalents balance was $246.4')
     print(str(s))

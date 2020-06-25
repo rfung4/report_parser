@@ -19,7 +19,7 @@ class BeyondMeat(Script):
     def get_report(self):
         self.report_text = self.make_soup_requests(self.report_url).text.replace(u'\xa0', ' ')
 
-    def parse_net_income(self):     # Parses value & assigns to value dict
+    def parse_net_income(self):
         income_string = self.income_regex.search(self.report_text).group()
         self.values[self.NET_INCOME_TAG] = extract_monetary_value(income_string)
 

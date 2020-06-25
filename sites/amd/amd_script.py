@@ -4,7 +4,7 @@ import requests
 from runner import run_script
 from sites.script import Script
 from util.pdf_convert import PdfConverter
-from util.utility import NUMBER_REGEX
+from util.utility import NUMBER_REGEX, format_value_millions
 
 
 class AMD(Script):
@@ -35,7 +35,7 @@ class AMD(Script):
 
         return None     # Report is assigned to class variable
 
-    def parse_net_income(self):     # Parses value & assigns to value dict
+    def parse_net_income(self):
         res = self.NET_INCOME_REGEX.search(self.report_text).group()
         income = "".join(s for s in res.split() if '$' in s)
         self.values[self.NET_INCOME_TAG] = " ".join([income, 'million'])
@@ -53,7 +53,7 @@ class AMD(Script):
                 for v in row_values.split(","):
                     if NUMBER_REGEX.search(v):
                         cash_flow = v.replace("(", '').replace(")", '').replace("$", '').strip()
-                        self.values[self.CASH_TAG] = "".join(["$", cash_flow, ' million'])
+                        self.values[self.CASH_TAG] = format_value_millions(cash_flow)
                         return
 
     def parse_EPS(self):

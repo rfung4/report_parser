@@ -5,7 +5,7 @@ import requests
 from runner import run_script
 from sites.script import Script
 from util.pdf_convert import PdfConverter
-from util.utility import get_csv_row_index
+from util.utility import get_csv_row_index, format_value_millions
 import camelot
 
 
@@ -36,17 +36,17 @@ class Disney(Script):
             table_rows[get_csv_row_index(label, table_rows)+1]
         return row.split(",", maxsplit=2)[-1].split(',"$",')[0].replace('"', '')
 
-    def parse_net_income(self):     # Parses value & assigns to value dict
+    def parse_net_income(self):    
         net_income_raw = self.parse_value_from_csv('Net income from continuing', self.table_rows, False)
-        self.values[self.NET_INCOME_TAG] = "".join(['$', net_income_raw.replace(",", ''), ' million'])
+        self.values[self.NET_INCOME_TAG] = format_value_millions(net_income_raw.replace(",", ''))
 
     def parse_revenue(self):
         rev_millions_raw = self.parse_value_from_csv('Revenues', self.table_rows)
-        self.values[self.REV_TAG] = "".join(['$', rev_millions_raw.replace(",", ''), ' million'])
+        self.values[self.REV_TAG] = format_value_millions(rev_millions_raw.replace(",", ''))
 
     def parse_cash_flow(self):
         cash_flow_raw = self.parse_value_from_csv('Free cash flow', self.table_rows)
-        self.values[self.CASH_TAG] = "".join(['$', cash_flow_raw.replace(",", ''), ' million'])
+        self.values[self.CASH_TAG] = format_value_millions(cash_flow_raw.replace(",", ''))
 
     def parse_EPS(self):
         raw_eps = self.parse_value_from_csv('Diluted EPS', self.table_rows, False)

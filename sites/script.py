@@ -15,13 +15,10 @@ class Script:
         self.name = name
         self.driver = None
 
-    def set_driver(self, dm):
-        self.driver = dm
-
     def get_report(self):
         pass
 
-    def parse_net_income(self):     # Parses value & assigns to value dict
+    def parse_net_income(self):    
         pass
 
     def parse_revenue(self):

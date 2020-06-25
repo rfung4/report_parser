@@ -34,7 +34,7 @@ class Teledoc(Script):
         PdfConverter.extract_tables_to_csv('report.pdf')
         self.table_lines = open('tables.csv').readlines()  # Saved here for efficiency
 
-    def parse_net_income(self):     # Parses value & assigns to value dict
+    def parse_net_income(self):
         net_loss_string = self.net_loss_regex.search(self.report_text).group().replace("(", '').replace(')', '')
         self.values[self.NET_INCOME_TAG] = "".join(["-", extract_monetary_value(net_loss_string)])
 

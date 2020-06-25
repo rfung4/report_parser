@@ -2,7 +2,7 @@ import re
 
 from runner import run_script
 from sites.script import Script
-from util.utility import extract_monetary_value
+from util.utility import extract_monetary_value, format_value_millions
 
 
 class Nvidia(Script):
@@ -42,7 +42,7 @@ class Nvidia(Script):
     def parse_net_income(self):
         cf_table = self.get_income_table(self.report_soup)
         inc_row = self.get_table_row_with_text(cf_table, 'Net income')
-        self.values[self.NET_INCOME_TAG] = "".join(["$", inc_row.findAll('td')[2].text, ' million'])
+        self.values[self.NET_INCOME_TAG] = format_value_millions(inc_row.findAll('td')[2].text)
 
     def parse_revenue(self):
         rev_string = self.rev_regex.search(self.report_soup.text).group()
@@ -51,7 +51,7 @@ class Nvidia(Script):
     def parse_cash_flow(self):
         cf_table = self.get_cash_table(self.report_soup)
         cash_row = self.get_table_row_with_text(cf_table, 'Free cash')
-        self.values[self.CASH_TAG] = "".join(["$", cash_row.findAll('td')[2].text, ' million'])
+        self.values[self.CASH_TAG] = format_value_millions(cash_row.findAll('td')[2].text)
 
     def parse_EPS(self):
         eps_string = self.eps_regex.search(self.report_soup.text).group()
