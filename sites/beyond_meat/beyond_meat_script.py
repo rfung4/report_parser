@@ -3,7 +3,6 @@ import re
 from runner import run_script
 from sites.script import Script
 from util.utility import extract_monetary_value
-from urllib.parse import unquote
 
 class BeyondMeat(Script):
 
@@ -12,6 +11,7 @@ class BeyondMeat(Script):
     cash_regex = re.compile('cash equivalents balance was \\$[0-9]+\\.[0-9]+.million')
     rev_regex = re.compile('Net revenues were \\$[0-9]+(\\.[0-9]+)? million')
     income_regex = re.compile('Net income was \\$[0-9]+(.[0-9]+)? million')
+    eps_regex = re.compile('\\$[0-9]\\.[0-9]+ per common diluted share')
 
     def __init__(self):
         super().__init__('Beyond Meat')
@@ -32,7 +32,8 @@ class BeyondMeat(Script):
         self.values[self.CASH_TAG] = extract_monetary_value(cash_string.group())
 
     def parse_EPS(self):
-        pass     # Cant find atm
+        eps_string = self.eps_regex.search(self.report_text)
+        self.values[self.EPS_TAG] = extract_monetary_value(eps_string.group().strip()).strip()
 
     def cleanup(self):
         pass
